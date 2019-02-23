@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Patient Past Medical, Social &amp; Family History Survey, Reactjs Survey Library Example</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://unpkg.com/jquery"></script>
+    <script src="https://unpkg.com/react@15/dist/react.js"></script>
+    <script src="https://unpkg.com/react-dom@15/dist/react-dom.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.2.5/babel.min.js"></script>
+    <script src="https://surveyjs.azureedge.net/1.0.71/survey.react.js"></script>
+    <link href="https://surveyjs.azureedge.net/1.0.71/survey.css" type="text/css" rel="stylesheet" />
+    <style type='text/css'>
+
+
+
+    </style>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/dependencyLibs/inputmask.dependencyLib.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/inputmask.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/inputmask.extensions.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/inputmask.numeric.extensions.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/inputmask.date.extensions.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/inputmask.phone.extensions.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/phone-codes/phone.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/phone-codes/phone-be.js"></script>
+    <script src="https://unpkg.com/inputmask@3.3.11/dist/inputmask/phone-codes/phone-ru.js"></script>
+    <script src="https://unpkg.com/surveyjs-widgets/surveyjs-widgets.js"></script>
+
+</head>
+
+<body>
+    <div id="surveyElement">
+    </div>
+    <div id="surveyResult"></div>
+
+    <script type="text/babel">
+
+
+
+        Survey.StylesManager.applyTheme("default");
+    
+
+
+var json = {
+    "pages": [
+     {
+      "name": "Location",
+      "elements": [
+       {
+        "type": "dropdown",
+        "name": "County",
+        "title": "County",
+        "isRequired": true,
+        "choices": [
+         "Cook County",
+         "Dupage County",
+         "Kane County"
+        ]
+       },
+       {
+        "type": "dropdown",
+        "name": "Courthouse",
+        "isRequired": true,
+        "choices": [
+         "2nd Municipal District - Skokie ",
+         "3rd Municipal District - Rolling Meadows",
+         "4th Municipal District - Maywood"
+        ]
+       }
+      ]
+     },
+     {
+      "name": "When",
+      "elements": [
+       {
+        "type": "text",
+        "name": "Date",
+        "isRequired": true,
+        "inputType": "date"
+       },
+       {
+        "type": "text",
+        "name": "Time",
+        "isRequired": true,
+        "inputType": "time"
+       }
+      ]
+     },
+     {
+      "name": "Court",
+      "elements": [
+       {
+        "type": "dropdown",
+        "name": "Courtroom",
+        "isRequired": true,
+        "choices": [
+         "Elephant Room",
+         "Lion Room",
+         "Tiger Room"
+        ]
+       },
+       {
+        "type": "dropdown",
+        "name": "Division",
+        "isRequired": true,
+        "choices": [
+         "Division A",
+         "Division B",
+         "Division C"
+        ]
+       },
+       {
+        "type": "text",
+        "name": "Judge Name"
+       }
+      ]
+     },
+     {
+      "name": "Case Information",
+      "elements": [
+       {
+        "type": "text",
+        "name": "Case Number",
+        "isRequired": true,
+        "inputType": "number"
+       },
+       {
+        "type": "text",
+        "name": "Practice Area"
+       },
+       {
+        "type": "file",
+        "name": "Attachments",
+        "maxSize": 0
+       },
+       {
+        "type": "text",
+        "name": "Any Extra Comments"
+       }
+      ]
+     }
+    ],
+    "sendResultOnPageNext": true,
+    "showQuestionNumbers": "off",
+    "showProgressBar": "top",
+    //Change this for the final screen thank you note.
+    "completedHtml": "Thank you for you're request!"
+   };
+
+window.survey = new Survey.Model(json);
+
+
+survey.onComplete.add(function(result) {
+    //TODO: send data to lambda
+    sendLambda(result);
+});
+
+var storageName = "survey_patient_history";
+function saveSurveyData(survey) {
+    var data = survey.data;
+    data.pageNo = survey.currentPageNo;
+    window.localStorage.setItem(storageName, JSON.stringify(data));
+}
+survey.onPartialSend.add(function(survey){
+    saveSurveyData(survey);
+});
+survey.onComplete.add(function(survey, options){
+    saveSurveyData(survey);
+});
+
+survey.sendResultOnPageNext = true;
+var prevData = window.localStorage.getItem(storageName) || null;
+if(prevData) {
+    var data = JSON.parse(prevData);
+    survey.data = data;
+    if(data.pageNo) {
+        survey.currentPageNo = data.pageNo;
+    }
+}
+ReactDOM.render(<Survey.Survey model={survey}  />, document.getElementById("surveyElement"));
+
+function sendLambda(result){
+        // Example POST method implementation:
+
+postData(`https://925hawd7g9.execute-api.us-east-1.amazonaws.com/dev`, result.data)
+  .then(data => {
+      console.log(JSON.stringify(data));
+//   document.querySelector('#surveyResult').innerHTML = "lambda result: " + JSON.stringify(data);
+}
+  ) // JSON-string from `response.json()` call
+  .catch(error => {
+      console.error(error);
+//   document.querySelector('#surveyResult').innerHTML = "lambda error: " + JSON.stringify(error);
+}
+)
+
+function postData(url = ``, data = {}) {
+  // Default options are marked with *
+    return fetch(url, {
+        method: "POST", // *GET, POST, PUT, DELETE, etc.
+        mode: "cors", // no-cors, cors, *same-origin
+        cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: "same-origin", // include, *same-origin, omit
+        headers: {
+            "Content-Type": "application/json",
+            // "Content-Type": "application/x-www-form-urlencoded",
+        },
+        redirect: "follow", // manual, *follow, error
+        referrer: "no-referrer", // no-referrer, *client
+        body: JSON.stringify(data), // body data type must match "Content-Type" header
+    })
+    .then(response => response.json()); // parses response to JSON
+}
+}
+</script>
+
+</body>
+
+</html>

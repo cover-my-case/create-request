@@ -1,0 +1,104 @@
+{
+    "pages": [
+     {
+      "name": "Location",
+      "elements": [
+       {
+        "type": "dropdown",
+        "name": "County",
+        "title": "County",
+        "isRequired": true,
+        "choices": [
+         "Cook County",
+         "Dupage County",
+         "Kane County"
+        ]
+       },
+       {
+        "type": "dropdown",
+        "name": "Courthouse",
+        "isRequired": true,
+        "choices": [
+         "2nd Municipal District - Skokie ",
+         "3rd Municipal District - Rolling Meadows",
+         "4th Municipal District - Maywood"
+        ]
+       }
+      ]
+     },
+     {
+      "name": "When",
+      "elements": [
+       {
+        "type": "text",
+        "name": "Date",
+        "isRequired": true,
+        "inputType": "date"
+       },
+       {
+        "type": "text",
+        "name": "Time",
+        "isRequired": true,
+        "inputType": "time"
+       }
+      ]
+     },
+     {
+      "name": "Court",
+      "elements": [
+       {
+        "type": "dropdown",
+        "name": "Courtroom",
+        "isRequired": true,
+        "choices": [
+         "Elephant Room",
+         "Lion Room",
+         "Tiger Room"
+        ]
+       },
+       {
+        "type": "dropdown",
+        "name": "Division",
+        "isRequired": true,
+        "choices": [
+         "Division A",
+         "Division B",
+         "Division C"
+        ]
+       },
+       {
+        "type": "text",
+        "name": "Judge Name"
+       }
+      ]
+     },
+     {
+      "name": "Case Information",
+      "elements": [
+       {
+        "type": "text",
+        "name": "Case Number",
+        "isRequired": true,
+        "inputType": "number"
+       },
+       {
+        "type": "text",
+        "name": "Practice Area"
+       },
+       {
+        "type": "file",
+        "name": "Attachments",
+        "maxSize": 0
+       },
+       {
+        "type": "text",
+        "name": "Any Extra Comments"
+       }
+      ]
+     }
+    ],
+    "sendResultOnPageNext": true,
+    "showQuestionNumbers": "off",
+    "showProgressBar": "top",
+    "completedHtml": "<p><h4>Thank you for sharing this information with us.</h4></p><p>Your name is: <b>{name}</b></p><p>Your email is: <b>{email}</b></p><p>This is what is on your mind:</p><p>{comment}</p>"
+   }
