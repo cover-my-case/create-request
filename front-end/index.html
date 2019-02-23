@@ -42,110 +42,274 @@
 
 
 var json = {
-    "pages": [
-     {
-      "name": "Location",
-      "elements": [
-       {
-        "type": "dropdown",
-        "name": "County",
-        "title": "County",
-        "isRequired": true,
-        "choices": [
-         "Cook County",
-         "Dupage County",
-         "Kane County"
-        ]
-       },
-       {
-        "type": "dropdown",
-        "name": "Courthouse",
-        "isRequired": true,
-        "choices": [
-         "2nd Municipal District - Skokie ",
-         "3rd Municipal District - Rolling Meadows",
-         "4th Municipal District - Maywood"
-        ]
-       }
-      ]
-     },
-     {
-      "name": "When",
-      "elements": [
-       {
-        "type": "text",
-        "name": "Date",
-        "isRequired": true,
-        "inputType": "date"
-       },
-       {
-        "type": "text",
-        "name": "Time",
-        "isRequired": true,
-        "inputType": "time"
-       }
-      ]
-     },
-     {
-      "name": "Court",
-      "elements": [
-       {
-        "type": "dropdown",
-        "name": "Courtroom",
-        "isRequired": true,
-        "choices": [
-         "Elephant Room",
-         "Lion Room",
-         "Tiger Room"
-        ]
-       },
-       {
-        "type": "dropdown",
-        "name": "Division",
-        "isRequired": true,
-        "choices": [
-         "Division A",
-         "Division B",
-         "Division C"
-        ]
-       },
-       {
-        "type": "text",
-        "name": "Judge Name"
-       }
-      ]
-     },
-     {
-      "name": "Case Information",
-      "elements": [
-       {
-        "type": "text",
-        "name": "Case Number",
-        "isRequired": true,
-        "inputType": "number"
-       },
-       {
-        "type": "text",
-        "name": "Practice Area"
-       },
-       {
-        "type": "file",
-        "name": "Attachments",
-        "maxSize": 0
-       },
-       {
-        "type": "text",
-        "name": "Any Extra Comments"
-       }
-      ]
-     }
-    ],
-    "sendResultOnPageNext": true,
-    "showQuestionNumbers": "off",
-    "showProgressBar": "top",
-    //Change this for the final screen thank you note.
-    "completedHtml": "Thank you for you're request!"
-   };
+ completedHtml: "Thank you for your request, we will be in touch for your case.",
+ pages: [
+  {
+   name: "Location",
+   elements: [
+    {
+     type: "dropdown",
+     name: "County",
+     title: "County",
+     isRequired: true,
+     choices: [
+      "Cook County",
+      "DeKalb County",
+      "Dupage County",
+      "Grundy County",
+      "Kane County",
+      "Kendall County",
+      "McHenry County",
+      "Will County"
+     ],
+     choicesOrder: "asc"
+    },
+    {
+     type: "dropdown",
+     name: "Courthouse",
+     isRequired: true,
+     choices: [
+      {
+       value: "Richard J. Daley Center",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "2nd Municipal District - Skokie",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "3rd Municipal District - Rolling Meadows",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "4th Municipal District - Maywood",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "5th Municipal District - Bridgeview",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Branch 23 & 29 - Chicago",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Branch 35 & 38 - Chicago",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Branch 43 & 44 - Chicago",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Central Bond Court - Pretrial Division",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Dirksen Federal Court - Chicago",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Domestic Violence Courthouse",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "George N. Leighton Criminal Courthouse",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Juvenile Center",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "Marriage and Civil Union Court - Chicago",
+       visibleIf: "{County} = \"Cook County\""
+      },
+      {
+       value: "DuPage County Courthouse and Administration Building",
+       visibleIf: "{County} = \"Dupage County\""
+      },
+      {
+       value: "Addison Field Court",
+       visibleIf: "{County} = \"Dupage County\""
+      },
+      {
+       value: "Downers Grove Field Court",
+       visibleIf: "{County} = \"Dupage County\""
+      },
+      {
+       value: "Glendale Heights Field Court",
+       visibleIf: "{County} = \"Dupage County\""
+      },
+      {
+       value: "Wheaton Field Court",
+       visibleIf: "{County} = \"Dupage County\""
+      }
+     ]
+    }
+   ]
+  },
+  {
+   name: "When",
+   elements: [
+    {
+     type: "text",
+     name: "Date",
+     isRequired: true,
+     inputType: "date"
+    },
+    {
+     type: "text",
+     name: "Time",
+     isRequired: true,
+     inputType: "time"
+    }
+   ]
+  },
+  {
+   name: "Court",
+   elements: [
+    {
+     type: "dropdown",
+     name: "Courtroom",
+     isRequired: true,
+     choices: [
+      {
+       value: "2401",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2609",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2010",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2404",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2110",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2304",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2309",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "2103",
+       visibleIf: "{Courthouse} = \"Richard J. Daley Center\""
+      },
+      {
+       value: "101",
+       visibleIf: "{Courthouse} = \"2nd Municipal District - Skokie\""
+      },
+      {
+       value: "106",
+       visibleIf: "{Courthouse} = \"2nd Municipal District - Skokie\""
+      },
+      {
+       value: "202",
+       visibleIf: "{Courthouse} = \"2nd Municipal District - Skokie\""
+      },
+      {
+       value: "206",
+       visibleIf: "{Courthouse} = \"2nd Municipal District - Skokie\""
+      },
+      {
+       value: "219",
+       visibleIf: "{Courthouse} = \"2nd Municipal District - Skokie\""
+      },
+      {
+       value: "108",
+       visibleIf: "{Courthouse} = \"3rd Municipal District - Rolling Meadows\""
+      },
+      {
+       value: "106",
+       visibleIf: "{Courthouse} = \"3rd Municipal District - Rolling Meadows\""
+      },
+      {
+       value: "204",
+       visibleIf: "{Courthouse} = \"3rd Municipal District - Rolling Meadows\""
+      },
+      {
+       value: "205L",
+       visibleIf: "{Courthouse} = \"3rd Municipal District - Rolling Meadows\""
+      }
+     ],
+     choicesOrder: "asc"
+    },
+    {
+     type: "dropdown",
+     name: "Division",
+     isRequired: true,
+     choices: [
+      "Chancery",
+      "Civil",
+      "Criminal",
+      "Domestic Relations",
+      "Law",
+      "Probate"
+     ]
+    },
+    {
+     type: "text",
+     name: "Judge Name"
+    }
+   ]
+  },
+  {
+   name: "Case Information",
+   elements: [
+    {
+     type: "text",
+     name: "Case Number",
+     isRequired: true
+    },
+    {
+     type: "text",
+     name: "Case Name",
+     title: "Case Name",
+     isRequired: true
+    },
+    {
+     type: "dropdown",
+     name: "question3",
+     title: "Practice Area",
+     choices: [
+      "Collections",
+      "Family Law",
+      "Foreclosure",
+      "Landlord/Tennant",
+      "Personal Injury",
+      "Probate",
+      "Real Estate"
+     ],
+     choicesOrder: "asc"
+    },
+    {
+     type: "text",
+     name: "Instructions",
+     title: "Instructions"
+    },
+    {
+     type: "file",
+     name: "Attachments",
+     maxSize: 0
+    }
+   ]
+  }
+ ],
+ sendResultOnPageNext: true,
+ showQuestionNumbers: "off",
+ showProgressBar: "top"
+};
 
 window.survey = new Survey.Model(json);
 
@@ -182,7 +346,7 @@ ReactDOM.render(<Survey.Survey model={survey}  />, document.getElementById("surv
 function sendLambda(result){
         // Example POST method implementation:
 
-postData(`https://925hawd7g9.execute-api.us-east-1.amazonaws.com/dev`, result.data)
+postData(`https://r40skemfvf.execute-api.us-east-1.amazonaws.com/web`, result.data)
   .then(data => {
       console.log(JSON.stringify(data));
   document.querySelector('#surveyResult').innerHTML = data;
