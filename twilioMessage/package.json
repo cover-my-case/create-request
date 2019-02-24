@@ -1,0 +1,13 @@
+{
+  "name": "coverage-request-notification",
+  "version": "1.0.0",
+  "description": "Send SMS for coverage attorney demo",
+  "readme": "Send SMS for coverage attorney demo",
+  "repository": "",
+  "main": "index.js",
+  "author": "j",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "twilio": "3.27.1"
+  }
+}
