@@ -16,7 +16,10 @@ exports.handler = async (event, context) => {
     } else if (event.Date) {
         console.log(JSON.stringify(event));
         return verifyRequest(event, context);
-    } else {
+    } else if (event.Approve) {
+        return approveMessage(event, context);
+    }
+    else {
         console.log(event);
         return 'You have failed this city!!';
     }
@@ -121,4 +124,24 @@ function sendSms(text) {
         + text
         + '</Message></Response>';
     return str;
+}
+
+function approveMessage(event, context) {
+    let request = context.awsRequestId;
+
+    let from = '+' + twilioPhoneNumber;
+    let to = '+' + process.env.DEMO_JUDGE;
+
+    let body = event.Approve;
+    let obj = { from, to, body };
+    return proactiveClient.messages.create(obj)
+        .then(d => {
+            console.log(d);
+            return 'We have received your request and this is your id: ' + request;
+        })
+        .catch(e => {
+            console.error(e);
+            return 'Failed request: ' + request
+                + '.  Please contact Jeffrey S. Harris, Esq for more information';
+        });
 }
