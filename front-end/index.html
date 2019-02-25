@@ -346,7 +346,7 @@ ReactDOM.render(<Survey.Survey model={survey}  />, document.getElementById("surv
 function sendLambda(result){
         // Example POST method implementation:
 
-postData(`https://r40skemfvf.execute-api.us-east-1.amazonaws.com/web`, result.data)
+postData(``, result.data) //add back end web api
   .then(data => {
       console.log(JSON.stringify(data));
   document.querySelector('#surveyResult').innerHTML = data;
